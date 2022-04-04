@@ -20,7 +20,7 @@ const path = require('path');
 //const helmet = require('helmet');
 //app.use(helmet());
 const csrf = require('csurf');
-const {checkCsrfError, csrfMiddleware} = require('./src/middlewares/middleware');
+const {checkCsrfError, csrfMiddleware, middlewareGlobal} = require('./src/middlewares/middleware');
 var bodyParser  = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
@@ -47,8 +47,9 @@ app.set('view engine', 'ejs');
 
 app.use(csrf());
 
-app.use(csrfMiddleware);
+app.use(middlewareGlobal);
 app.use(checkCsrfError);
+app.use(csrfMiddleware);
 app.use(routes);
 
 app.on('conected', () => {
